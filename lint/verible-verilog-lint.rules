@@ -1,0 +1,12 @@
++line-length=length:120
++parameter-name-style=parameter_style:ALL_CAPS;localparam_style:ALL_CAPS
++no-tabs
++mismatched-labels
++signal-name-style
++proper-parameter-declaration
++numeric-format-string-style
++endif-comment
+-always-comb
+-unpacked-dimensions-range-ordering
+-port-name-suffix
+-explicit-parameter-storage-type

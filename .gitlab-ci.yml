@@ -1,0 +1,173 @@
+#.yml file for Gitlab-CI support
+
+include:
+  - project: 'sgl/ci-control'
+    file: 'common/linting/code.yml'
+
+variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - lint
+  - test-cocotb
+
+black_linting:
+    script:
+        - black -l $LINE_LENGTH --check . --exclude="/modules/*"
+    allow_failure: true
+
+verible_format:
+    stage: lint
+    tags:
+        - docker
+    image: $DOCKER_REGISTRY/hdlc/verible:latest
+    script:
+        - verible-verilog-format --inplace --flagfile lint/verible-verilog-format.rules rtl/*.v
+    allow_failure: true
+
+verible_lint:
+    stage: lint
+    tags:
+        - docker
+    image: $DOCKER_REGISTRY/hdlc/verible:latest
+    script:
+        - verible-verilog-lint rtl/*.v --rules_config lint/verible-verilog-lint.rules --waiver_files lint/verible-verilog-lint.waiver
+    allow_failure: true
+
+fir_top_i2c:
+    stage: test-cocotb
+    tags:
+        - docker
+    image: $DOCKER_REGISTRY/sgl/ubuntu:20.04
+    script:
+        - apt-get install python3 -y
+        - apt-get install python3-pip -y
+        - pip3 install cocotb
+        - pip3 install cocotb-bus
+        - apt-get install git -y
+        - apt-get install iverilog -y
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/externals/cocotbext-i2c.git
+        - pip3 install -e cocotbext-i2c
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/eposhh_fir_sw.git
+        - pip3 install ./eposhh_fir_sw
+        - pip3 install pytest
+        - ls
+        - cd sim/fir_top_i2c
+        - make > test.log 2>&1
+        - grep FAIL=0 test.log
+    artifacts:
+        paths:
+            - sim/fir_top_i2c/test.log
+        expire_in: 1 week
+        when: always
+    allow_failure: false
+
+fir_top_i2c_tmr:
+    stage: test-cocotb
+    tags:
+        - docker
+    image: $DOCKER_REGISTRY/sgl/ubuntu:20.04
+    script:
+        - apt-get install python3 -y
+        - apt-get install python3-pip -y
+        - pip3 install cocotb
+        - pip3 install cocotb-bus
+        - apt-get install git -y
+        - apt-get install iverilog -y
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/externals/cocotbext-i2c.git
+        - pip3 install -e cocotbext-i2c
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/eposhh_fir_sw.git
+        - pip3 install ./eposhh_fir_sw
+        - pip3 install pytest
+        - ls
+        - cd sim/fir_top_i2c
+        - make -f Makefile.tmr > test.log 2>&1
+        - grep FAIL=0 test.log
+    artifacts:
+        paths:
+            - sim/fir_top_i2c/test.log
+        expire_in: 1 week
+        when: always
+    allow_failure: false
+
+adder_tree:
+    stage: test-cocotb
+    tags:
+        - docker
+    image: $DOCKER_REGISTRY/sgl/ubuntu:20.04
+    script:
+        - apt-get install python3 -y
+        - apt-get install python3-pip -y
+        - pip3 install cocotb
+        - pip3 install cocotb-bus
+        - apt-get install git -y
+        - apt-get install iverilog -y
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/externals/cocotbext-i2c.git
+        - pip3 install -e cocotbext-i2c
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/eposhh_fir_sw.git
+        - pip3 install ./eposhh_fir_sw
+        - pip3 install pytest
+        - ls
+        - cd sim/adder_tree
+        - make > test.log 2>&1
+        - grep FAIL=0 test.log
+    artifacts:
+        paths:
+            - sim/adder_tree/test.log
+        expire_in: 1 week
+        when: always
+    allow_failure: false
+fir_unit:
+    stage: test-cocotb
+    tags:
+        - docker
+    image: $DOCKER_REGISTRY/sgl/ubuntu:20.04
+    script:
+        - apt-get install python3 -y
+        - apt-get install python3-pip -y
+        - pip3 install cocotb
+        - pip3 install cocotb-bus
+        - apt-get install git -y
+        - apt-get install iverilog -y
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/externals/cocotbext-i2c.git
+        - pip3 install -e cocotbext-i2c
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/eposhh_fir_sw.git
+        - pip3 install ./eposhh_fir_sw
+        - pip3 install pytest
+        - ls
+        - cd sim/fir_unit
+        - make > test.log 2>&1
+        - grep FAIL=0 test.log
+    artifacts:
+        paths:
+            - sim/fir_unit/test.log
+        expire_in: 1 week
+        when: always
+    allow_failure: false
+fir_unit_tmr:
+    stage: test-cocotb
+    tags:
+        - docker
+    image: $DOCKER_REGISTRY/sgl/ubuntu:20.04
+    script:
+        - apt-get install python3 -y
+        - apt-get install python3-pip -y
+        - pip3 install cocotb
+        - pip3 install cocotb-bus
+        - apt-get install git -y
+        - apt-get install iverilog -y
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/externals/cocotbext-i2c.git
+        - pip3 install -e cocotbext-i2c
+        - git clone https://sgl-git.arlut.utexas.edu/slicer/eposhh_fir_sw.git
+        - pip3 install ./eposhh_fir_sw
+        - pip3 install pytest
+        - ls
+        - cd sim/fir_unit
+        - make -f Makefile.tmr > test.log 2>&1
+        - grep FAIL=0 test.log
+    artifacts:
+        paths:
+            - sim/fir_unit/test.log
+        expire_in: 1 week
+        when: always
+    allow_failure: false

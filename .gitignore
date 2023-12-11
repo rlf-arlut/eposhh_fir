@@ -1,0 +1,12 @@
+*.lxt2
+*.lx2
+sim/results.xml
+sim/sim_build/*
+sim/__pycache__
+*.cov
+a.out
+*.log
+*.cdd
+*.swp
+rtl/bugReport*
+*__pycache__*

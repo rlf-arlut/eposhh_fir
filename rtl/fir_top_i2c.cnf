@@ -1,0 +1,24 @@
+[fir_top_i2c]
+default: do_not_triplicate
+tmr_error: false
+
+[i2c_target_wbm]
+default : do_not_triplicate
+tmr_error : false
+
+[i2c_target]
+default: do_not_triplicate
+tmr_error : false
+
+[mult_reg]
+default: do_not_triplicate
+tmr_error : false
+
+[adder_tree]
+default: do_not_triplicate
+tmr_error : false
+
+
+[crc16]
+default: triplicate
++tmr_error : false

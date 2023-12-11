@@ -1,0 +1,70 @@
+[fir_top_i2c_tmr]
+default: do_not_triplicate
+control: triplicate
+ss_delay: triplicate
+thresholds: triplicate
+coeff: triplicate
+abs_time_cntr: triplicate
+ss_buff_valid: triplicate
+tmr_error: false
+
+[i2c_target_wbmTMR]
+default : triplicate
+clk: do_not_triplicate
+rst: do_not_triplicate
+i2c_scl_i: do_not_triplicate
+i2c_scl_o: do_not_triplicate
+i2c_scl_t: do_not_triplicate
+i2c_sda_i: do_not_triplicate
+i2c_sda_o: do_not_triplicate
+i2c_sda_t: do_not_triplicate
+wb_adr_o: do_not_triplicate
+wb_dat_i: do_not_triplicate
+wb_dat_o: do_not_triplicate
+wb_we_o: do_not_triplicate
+wb_sel_o: do_not_triplicate
+wb_stb_o: do_not_triplicate
+wb_ack_i: do_not_triplicate
+wb_err_i: do_not_triplicate
+wb_cyc_o: do_not_triplicate
+busy: do_not_triplicate
+bus_addressed: do_not_triplicate
+bus_active: do_not_triplicate
+enable: do_not_triplicate
+device_address: do_not_triplicate
+
+tmr_error : false
+
+[i2c_targetTMR]
+default: triplicate
+clk: do_not_triplicate
+rst: do_not_triplicate
+tmr_error : false
+
+
+[mult_reg]
+default: do_not_triplicate
+tmr_error : false
+
+[adder_tree10]
+default: do_not_triplicate
+tmr_error : false
+
+[crc16TMR]
+default: triplicate
+tmr_error : false
+
+[snapshot_txTMR]
+default : triplicate
+clk: do_not_triplicate
+rst: do_not_triplicate
+ss_tx_start: do_not_triplicate
+ss_buff: do_not_triplicate
+ss_txbuff: do_not_triplicate
+idle: do_not_triplicate
+pdw_frame: do_not_triplicate
+pdw_data: do_not_triplicate
+ss_tx_cs : triplicate
+ss_tx_ns : triplicate
+ss_tx_bit_cnt: triplicate
+tmr_error : false

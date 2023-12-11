@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# To enable this hook, run:
+# $ ln -rs githooks/pre-commit .git/hooks
+rc=0
+
+changed_py_files=$(git diff --diff-filter=d --name-only --staged $(find sim -name "*.py"))
+if ! python3 -m black -l 132 --check $changed_py_files &> /dev/null; then
+    echo "Python formatting check failed. Reformat your files with \"python3 -m black \$(git diff --diff-filter=d --name-only --staged \$(find sim -name \"*.py\"))\" before committing." 1>&2
+    rc=1
+fi
+exit $rc
